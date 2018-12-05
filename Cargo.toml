@@ -5,3 +5,4 @@ authors = ["Bas Zalmstra <zalmstra.bas@gmail.com>"]
 
 [dependencies]
 regex = "1"
+chrono = "0.4"
