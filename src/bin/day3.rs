@@ -1,17 +1,17 @@
 extern crate regex;
 
-const FABRIC_SIZE:usize = 1000;
+const FABRIC_SIZE: usize = 1000;
 
 struct Claim {
     pub id: usize,
     pub left: usize,
     pub top: usize,
     pub width: usize,
-    pub height: usize
+    pub height: usize,
 }
 
-fn is_unique(claim:&Claim, fabric: &[u32; FABRIC_SIZE * FABRIC_SIZE]) -> bool {
-    for y in claim.top .. claim.top + claim.height {
+fn is_unique(claim: &Claim, fabric: &[u32; FABRIC_SIZE * FABRIC_SIZE]) -> bool {
+    for y in claim.top..claim.top + claim.height {
         for x in claim.left..claim.left + claim.width {
             if fabric[y * FABRIC_SIZE + x] > 1 {
                 return false;
@@ -22,12 +22,12 @@ fn is_unique(claim:&Claim, fabric: &[u32; FABRIC_SIZE * FABRIC_SIZE]) -> bool {
 }
 
 fn main() {
-    let input = std::fs::read_to_string("inputs/day3/input")
-        .expect("Could not read puzzle input");
+    let input = std::fs::read_to_string("inputs/day3/input").expect("Could not read puzzle input");
 
     // Parse the input into claims
     let re = regex::Regex::new(r"#(\d+) @ (\d+),(\d+): (\d+)x(\d+)").unwrap();
-    let claims:Vec<Claim> = input.lines()
+    let claims: Vec<Claim> = input
+        .lines()
         .map(|l| {
             let captures = re.captures(l).expect("Invalid claim");
             Claim {
@@ -43,9 +43,9 @@ fn main() {
     // Sum the inches that are used
     let mut fabric = [0_u32; FABRIC_SIZE * FABRIC_SIZE];
     for claim in claims.iter() {
-        for y in claim.top .. claim.top + claim.height {
+        for y in claim.top..claim.top + claim.height {
             for x in claim.left..claim.left + claim.width {
-                fabric[y* FABRIC_SIZE +x] += 1;
+                fabric[y * FABRIC_SIZE + x] += 1;
             }
         }
     }
