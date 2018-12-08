@@ -11,3 +11,4 @@ Advent of Code 2018 solutions written in Rust.
 |[Day 5: Alchemical Reduction](https://adventofcode.com/2018/day/5)         |[✓](src/bin/day5.rs)      |
 |[Day 6: Chronal Coordinates](https://adventofcode.com/2018/day/6)          |[✓](src/bin/day6.rs)      |
 |[Day 7: The Sum of Its Parts](https://adventofcode.com/2018/day/7)         |[✓](src/bin/day7.rs)      |
+|[Day 8: Memory Maneuver](https://adventofcode.com/2018/day/8)              |[✓](src/bin/day8.rs)      |
