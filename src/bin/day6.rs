@@ -1,50 +1,11 @@
 use std::collections::VecDeque;
-
-#[derive(Debug, Clone, Copy)]
-struct Point {
-    x: u32,
-    y: u32,
-}
+use aoc::Point;
 
 #[derive(Copy, Clone, Debug)]
 enum VoronoiCell {
     Uninitialized,
     ClosestTo(usize, u32),
     MultipleClosest,
-}
-
-impl Point {
-    pub fn new(x: u32, y: u32) -> Point {
-        Point { x, y }
-    }
-
-    pub fn max_value() -> Point {
-        Point {
-            x: std::u32::MAX,
-            y: std::u32::MAX,
-        }
-    }
-
-    pub fn min_value() -> Point {
-        Point {
-            x: std::u32::MIN,
-            y: std::u32::MIN,
-        }
-    }
-
-    pub fn min(&self, other: &Point) -> Point {
-        Point {
-            x: self.x.min(other.x),
-            y: self.y.min(other.y),
-        }
-    }
-
-    pub fn max(&self, other: &Point) -> Point {
-        Point {
-            x: self.x.max(other.x),
-            y: self.y.max(other.y),
-        }
-    }
 }
 
 fn main() {

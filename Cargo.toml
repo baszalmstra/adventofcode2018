@@ -7,3 +7,7 @@ edition = "2018"
 [dependencies]
 regex = "1"
 chrono = "0.4"
+
+[lib]
+name = "aoc"
+path = "src/lib.rs"

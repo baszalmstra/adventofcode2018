@@ -13,3 +13,4 @@ Advent of Code 2018 solutions written in Rust.
 |[Day 7: The Sum of Its Parts](https://adventofcode.com/2018/day/7)         |[✓](src/bin/day7.rs)      |
 |[Day 8: Memory Maneuver](https://adventofcode.com/2018/day/8)              |[✓](src/bin/day8.rs)      |
 |[Day 9: Marble Mania](https://adventofcode.com/2018/day/9)                 |[✓](src/bin/day9.rs)      |
+|[Day 10: The Stars Align](https://adventofcode.com/2018/day/10)            |[✓](src/bin/day10.rs)     |
