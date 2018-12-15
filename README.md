@@ -17,3 +17,4 @@ Advent of Code 2018 solutions written in Rust.
 |[Day 11: Chronal Charge](https://adventofcode.com/2018/day/11)             |[✓](src/bin/day11.rs)     |
 |[Day 12: Subterranean Sustainability](https://adventofcode.com/2018/day/12)|[✓](src/bin/day12.rs)     |
 |[Day 13: Mine Cart Madness](https://adventofcode.com/2018/day/13)          |[✓](src/bin/day13.rs)     |
+|[Day 14: Chocolate Charts](https://adventofcode.com/2018/day/14)           |[✓](src/bin/day14.rs)     |
