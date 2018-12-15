@@ -16,3 +16,4 @@ Advent of Code 2018 solutions written in Rust.
 |[Day 10: The Stars Align](https://adventofcode.com/2018/day/10)            |[✓](src/bin/day10.rs)     |
 |[Day 11: Chronal Charge](https://adventofcode.com/2018/day/11)             |[✓](src/bin/day11.rs)     |
 |[Day 12: Subterranean Sustainability](https://adventofcode.com/2018/day/12)|[✓](src/bin/day12.rs)     |
+|[Day 13: Mine Cart Madness](https://adventofcode.com/2018/day/13)          |[✓](src/bin/day13.rs)     |
