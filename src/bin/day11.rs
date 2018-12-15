@@ -1,52 +1,61 @@
-fn power_level(x:i32, y:i32, grid_serial: i32) -> i32 {
+fn power_level(x: i32, y: i32, grid_serial: i32) -> i32 {
     let rack_id = x + 10;
     let value = (rack_id * y + grid_serial) * rack_id;
-    let digit = (value % 1000 - value%100) / 100;
+    let digit = (value % 1000 - value % 100) / 100;
     digit - 5
 }
 
-fn compute_power_levels(width: i32, height: i32, grid_serial:i32) -> Vec<i32> {
+fn compute_power_levels(width: i32, height: i32, grid_serial: i32) -> Vec<i32> {
     let mut power_levels = Vec::new();
-    power_levels.resize((width*height) as usize, 0);
+    power_levels.resize((width * height) as usize, 0);
     for y in 0..height {
         for x in 0..width {
-            power_levels[(y*300+x) as usize] = power_level(x, y, grid_serial);
+            power_levels[(y * 300 + x) as usize] = power_level(x, y, grid_serial);
         }
     }
     power_levels
 }
 
-fn compute_power_level_blocks(width:i32, height:i32, block_size:i32, power_level_grid:&Vec<i32>) -> Vec<i32> {
+fn compute_power_level_blocks(
+    width: i32,
+    height: i32,
+    block_size: i32,
+    power_level_grid: &Vec<i32>,
+) -> Vec<i32> {
     let mut power_level_blocks = Vec::new();
-    power_level_blocks.resize(((width - block_size + 1)*(height - block_size + 1)) as usize, 0);
+    power_level_blocks.resize(
+        ((width - block_size + 1) * (height - block_size + 1)) as usize,
+        0,
+    );
 
-    for y in 0 .. height - (block_size-1) {
-        for x in 0 .. width - (block_size-1) {
+    for y in 0..height - (block_size - 1) {
+        for x in 0..width - (block_size - 1) {
             let mut total = 0;
-            for by in 0 .. block_size {
-                for bx in 0 ..block_size {
-                    total += power_level_grid[((y+by)*width+(x+bx)) as usize];
+            for by in 0..block_size {
+                for bx in 0..block_size {
+                    total += power_level_grid[((y + by) * width + (x + bx)) as usize];
                 }
             }
-            power_level_blocks[(y*(width - block_size + 1) + x) as usize] = total;
+            power_level_blocks[(y * (width - block_size + 1) + x) as usize] = total;
         }
     }
 
     power_level_blocks
 }
 
-fn find_max_block(grid_serial:i32) -> (usize, usize) {
-    let blocks = compute_power_level_blocks(300, 300, 3,
-                                            &compute_power_levels(300, 300, grid_serial));
+fn find_max_block(grid_serial: i32) -> (usize, usize) {
+    let blocks =
+        compute_power_level_blocks(300, 300, 3, &compute_power_levels(300, 300, grid_serial));
     let block_grid_size = 298;
-    blocks.iter()
+    blocks
+        .iter()
         .enumerate()
-        .max_by(|(_,a), (_,b)| a.cmp(b))
-        .map(|(i,_)| (i%block_grid_size as usize, i/block_grid_size as usize))
+        .max_by(|(_, a), (_, b)| a.cmp(b))
+        .map(|(i, _)| (i % block_grid_size as usize, i / block_grid_size as usize))
         .unwrap()
 }
 
-fn find_max(grid_serial:i32) -> (i32, i32, i32) {
+fn find_max(grid_serial: i32) -> (i32, i32, i32) {
     let width = 300;
     let height = 300;
     let mut block_size = 3;
@@ -54,15 +63,15 @@ fn find_max(grid_serial:i32) -> (i32, i32, i32) {
     let mut blocks = compute_power_level_blocks(width, height, block_size, &power_levels);
     let stride = 298;
 
-    let mut max_location = (0,0,0);
+    let mut max_location = (0, 0, 0);
     let mut max_value = 0;
     loop {
         // Find the max
-        for y in 0..height - (block_size-1) {
-            for x in 0..width - (block_size-1) {
-                if blocks[(y*stride+x) as usize] > max_value {
-                    max_value = blocks[(y*stride+x) as usize];
-                    max_location = (x,y,block_size);
+        for y in 0..height - (block_size - 1) {
+            for x in 0..width - (block_size - 1) {
+                if blocks[(y * stride + x) as usize] > max_value {
+                    max_value = blocks[(y * stride + x) as usize];
+                    max_location = (x, y, block_size);
                 }
             }
         }
@@ -74,14 +83,16 @@ fn find_max(grid_serial:i32) -> (i32, i32, i32) {
         }
 
         // Increase the blocks range
-        for y in 0..height - (block_size-1) {
-            for x in 0..width - (block_size-1) {
-                for by in 0..block_size-1 {
-                    blocks[(y*stride+x) as usize] += power_levels[((y+by)*300+x+block_size-1) as usize]
+        for y in 0..height - (block_size - 1) {
+            for x in 0..width - (block_size - 1) {
+                for by in 0..block_size - 1 {
+                    blocks[(y * stride + x) as usize] +=
+                        power_levels[((y + by) * 300 + x + block_size - 1) as usize]
                 }
 
                 for bx in 0..block_size {
-                    blocks[(y*stride+x) as usize] += power_levels[((y+block_size-1)*300+x+bx) as usize]
+                    blocks[(y * stride + x) as usize] +=
+                        power_levels[((y + block_size - 1) * 300 + x + bx) as usize]
                 }
             }
         }

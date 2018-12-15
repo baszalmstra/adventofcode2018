@@ -59,11 +59,9 @@ fn find_highest_score(player_count: usize, last_marble_value: usize) -> usize {
 }
 
 fn main() {
-    let input = &std::fs::read_to_string("inputs/day9/input")
-        .expect("Could not read input file");
+    let input = &std::fs::read_to_string("inputs/day9/input").expect("Could not read input file");
     let regex = regex::Regex::new(r"(\d+) players; last marble is worth (\d+) points").unwrap();
-    let captures = regex.captures(input)
-        .expect("Invalid regex match");
+    let captures = regex.captures(input).expect("Invalid regex match");
 
     let player_count = captures[1].parse().unwrap();
     let last_marble_value = captures[2].parse().unwrap();
@@ -71,7 +69,7 @@ fn main() {
     let result1 = find_highest_score(player_count, last_marble_value);
     println!("Result 1: {}", result1);
 
-    let result2 = find_highest_score(player_count, last_marble_value*100);
+    let result2 = find_highest_score(player_count, last_marble_value * 100);
     println!("Result 2: {}", result2);
 }
 

@@ -23,14 +23,14 @@ impl Point {
         }
     }
 
-    pub fn min(&self, other: &Point) -> Point {
+    pub fn min(self, other: &Point) -> Point {
         Point {
             x: self.x.min(other.x),
             y: self.y.min(other.y),
         }
     }
 
-    pub fn max(&self, other: &Point) -> Point {
+    pub fn max(self, other: &Point) -> Point {
         Point {
             x: self.x.max(other.x),
             y: self.y.max(other.y),

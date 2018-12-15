@@ -1,5 +1,5 @@
-use std::collections::VecDeque;
 use aoc::Point;
+use std::collections::VecDeque;
 
 #[derive(Copy, Clone, Debug)]
 enum VoronoiCell {

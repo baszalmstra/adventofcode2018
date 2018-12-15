@@ -3,7 +3,7 @@ use std::collections::VecDeque;
 #[derive(Clone, Copy, Eq, PartialEq)]
 enum PotState {
     Plant,
-    Empty
+    Empty,
 }
 
 impl From<char> for PotState {
@@ -11,7 +11,7 @@ impl From<char> for PotState {
         match c {
             '#' => PotState::Plant,
             '.' => PotState::Empty,
-            _ => unreachable!()
+            _ => unreachable!(),
         }
     }
 }
@@ -27,12 +27,14 @@ impl std::fmt::Display for PotState {
 
 struct Rule {
     pattern: [PotState; 5],
-    result: PotState
+    result: PotState,
 }
 
 impl std::fmt::Display for Rule {
     fn fmt(&self, f: &mut std::fmt::Formatter) -> Result<(), std::fmt::Error> {
-        write!(f, "{}{}{}{}{} => {}",
+        write!(
+            f,
+            "{}{}{}{}{} => {}",
             self.pattern[0],
             self.pattern[1],
             self.pattern[2],
@@ -45,11 +47,11 @@ impl std::fmt::Display for Rule {
 
 struct State {
     state: VecDeque<PotState>,
-    offset: i64
+    offset: i64,
 }
 
 impl State {
-    fn new(initial_state:VecDeque<PotState>) -> State {
+    fn new(initial_state: VecDeque<PotState>) -> State {
         let mut state = initial_state;
         let mut offset = 0;
         while let Some(PotState::Empty) = state.front() {
@@ -63,7 +65,7 @@ impl State {
         State { state, offset }
     }
 
-    fn iterate(&self, rules:&Vec<Rule>) -> State {
+    fn iterate(&self, rules: &Vec<Rule>) -> State {
         let mut previous_state = VecDeque::with_capacity(self.state.len() + 8);
         for _ in 0..4 {
             previous_state.push_back(PotState::Empty);
@@ -78,13 +80,14 @@ impl State {
         // Start matching
         let mut state = VecDeque::new();
         state.resize(previous_state.len(), PotState::Empty);
-        for i in 2 .. previous_state.len() - 2 {
+        for i in 2..previous_state.len() - 2 {
             for rule in rules.iter() {
-                if previous_state[i - 2] == rule.pattern[0] &&
-                    previous_state[i - 1] == rule.pattern[1] &&
-                    previous_state[i - 0] == rule.pattern[2] &&
-                    previous_state[i + 1] == rule.pattern[3] &&
-                    previous_state[i + 2] == rule.pattern[4] {
+                if previous_state[i - 2] == rule.pattern[0]
+                    && previous_state[i - 1] == rule.pattern[1]
+                    && previous_state[i - 0] == rule.pattern[2]
+                    && previous_state[i + 1] == rule.pattern[3]
+                    && previous_state[i + 2] == rule.pattern[4]
+                {
                     state[i] = rule.result.clone();
                     break;
                 }
@@ -101,10 +104,7 @@ impl State {
             state.pop_back();
         }
 
-        State {
-            state,
-            offset
-        }
+        State { state, offset }
     }
 
     fn plant_sum(&self) -> i64 {
@@ -126,8 +126,7 @@ impl std::fmt::Display for State {
 }
 
 fn main() {
-    let input = std::fs::read_to_string("inputs/day12/input")
-        .expect("Could not read input file");
+    let input = std::fs::read_to_string("inputs/day12/input").expect("Could not read input file");
 
     let (initial_state, rules) = {
         let mut lines_iter = input.lines();
@@ -136,24 +135,28 @@ fn main() {
                 .chars()
                 .map(|c| match c {
                     '#' => PotState::Plant,
-                    _ => PotState::Empty
+                    _ => PotState::Empty,
                 })
-                .collect());
+                .collect(),
+        );
 
         lines_iter.next(); // Skip white line
 
-        let rules: Vec<Rule> = lines_iter.map(|line| {
-            let chars: Vec<char> = line.chars().collect();
-            Rule {
-                pattern: [chars[0].into(),
-                    chars[1].into(),
-                    chars[2].into(),
-                    chars[3].into(),
-                    chars[4].into()],
-                result: chars[9].into()
-            }
-        })
-        .collect();
+        let rules: Vec<Rule> = lines_iter
+            .map(|line| {
+                let chars: Vec<char> = line.chars().collect();
+                Rule {
+                    pattern: [
+                        chars[0].into(),
+                        chars[1].into(),
+                        chars[2].into(),
+                        chars[3].into(),
+                        chars[4].into(),
+                    ],
+                    result: chars[9].into(),
+                }
+            })
+            .collect();
         (initial_state, rules)
     };
 
@@ -172,8 +175,8 @@ fn main() {
     }
 
     let guess = State {
-        offset: state.offset + (50000000000-2000),
-        state: state.state
+        offset: state.offset + (50000000000 - 2000),
+        state: state.state,
     };
 
     println!("Result 1: {}", result1);

@@ -1,12 +1,12 @@
 use std::collections::VecDeque;
 
-fn digits(count:usize) -> Vec<usize> {
+fn digits(count: usize) -> Vec<usize> {
     let mut value = count;
     let mut result = Vec::new();
     loop {
         let digit = value % 10;
         result.push(digit);
-        value = (value - digit)/10;
+        value = (value - digit) / 10;
 
         if value == 0 {
             break;
@@ -17,15 +17,15 @@ fn digits(count:usize) -> Vec<usize> {
     result
 }
 
-fn compare_end(scores:&VecDeque<usize>, request:&Vec<usize>) -> bool {
+fn compare_end(scores: &VecDeque<usize>, request: &Vec<usize>) -> bool {
     let size = request.len();
     if scores.len() < size {
         return false;
     }
 
     let begin = scores.len() - size;
-    for i in 0 .. request.len() {
-        if scores[i+begin] != request[i] {
+    for i in 0..request.len() {
+        if scores[i + begin] != request[i] {
             return false;
         }
     }
@@ -47,7 +47,9 @@ fn main() {
 
     loop {
         // Compute sum of current recipes
-        let sum = elves.iter().fold(0usize, |state, current_recipe| state + scoreboard[*current_recipe]);
+        let sum = elves.iter().fold(0usize, |state, current_recipe| {
+            state + scoreboard[*current_recipe]
+        });
 
         // Append the digits to the scoreboard
         let digits = digits(sum);
@@ -58,13 +60,13 @@ fn main() {
                 print!("Result 1: ");
                 let begin = input;
                 let end = input + 10;
-                for i in begin .. end {
+                for i in begin..end {
                     print!("{}", scoreboard[i])
                 }
                 println!();
             }
 
-            if compare_end(&scoreboard, &input_digits ) {
+            if compare_end(&scoreboard, &input_digits) {
                 println!("Result 2: {}", scoreboard.len() - input_digits.len());
                 return;
             }
@@ -72,7 +74,8 @@ fn main() {
 
         // Update current recipes
         for current_recipe in elves.iter_mut() {
-            *current_recipe = (*current_recipe + scoreboard[*current_recipe] + 1) % scoreboard.len();
+            *current_recipe =
+                (*current_recipe + scoreboard[*current_recipe] + 1) % scoreboard.len();
         }
     }
 }

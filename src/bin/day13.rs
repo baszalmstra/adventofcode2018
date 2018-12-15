@@ -11,7 +11,7 @@ enum Orientation {
     Up,
     Down,
     Left,
-    Right
+    Right,
 }
 
 #[derive(Copy, Clone)]
@@ -19,52 +19,48 @@ enum Orientation {
 enum TurnDirection {
     Left = 0,
     Straight = 1,
-    Right = 2
+    Right = 2,
 }
 
 #[derive(Clone)]
 struct Cart {
-    orientation:Orientation,
-    turn_direction:TurnDirection,
-    position: (usize, usize)
+    orientation: Orientation,
+    turn_direction: TurnDirection,
+    position: (usize, usize),
 }
 
 impl Cart {
-    fn new(orientation:Orientation, position: (usize, usize)) -> Cart {
+    fn new(orientation: Orientation, position: (usize, usize)) -> Cart {
         Cart {
             orientation,
             turn_direction: TurnDirection::Left,
-            position
+            position,
         }
     }
 
     fn update_position(&mut self) {
-        let (x,y) = self.position;
+        let (x, y) = self.position;
         self.position = match self.orientation {
-            Orientation::Up => (x,y-1),
-            Orientation::Down => (x,y+1),
-            Orientation::Left => (x-1, y),
-            Orientation::Right => (x+1, y),
+            Orientation::Up => (x, y - 1),
+            Orientation::Down => (x, y + 1),
+            Orientation::Left => (x - 1, y),
+            Orientation::Right => (x + 1, y),
         };
     }
 
-    fn update_orientation(&mut self, track:&Track) {
+    fn update_orientation(&mut self, track: &Track) {
         match track {
-            Track::CurveLeft => {
-                match self.orientation {
-                    Orientation::Up => self.orientation = Orientation::Left,
-                    Orientation::Right => self.orientation = Orientation::Down,
-                    Orientation::Left => self.orientation = Orientation::Up,
-                    Orientation::Down => self.orientation = Orientation::Right
-                }
+            Track::CurveLeft => match self.orientation {
+                Orientation::Up => self.orientation = Orientation::Left,
+                Orientation::Right => self.orientation = Orientation::Down,
+                Orientation::Left => self.orientation = Orientation::Up,
+                Orientation::Down => self.orientation = Orientation::Right,
             },
-            Track::CurveRight => {
-                match self.orientation {
-                    Orientation::Up => self.orientation = Orientation::Right,
-                    Orientation::Right => self.orientation = Orientation::Up,
-                    Orientation::Left => self.orientation = Orientation::Down,
-                    Orientation::Down => self.orientation = Orientation::Left
-                }
+            Track::CurveRight => match self.orientation {
+                Orientation::Up => self.orientation = Orientation::Right,
+                Orientation::Right => self.orientation = Orientation::Up,
+                Orientation::Left => self.orientation = Orientation::Down,
+                Orientation::Down => self.orientation = Orientation::Left,
             },
             Track::Crossing => {
                 self.orientation = match self.orientation {
@@ -94,21 +90,19 @@ impl Cart {
                     TurnDirection::Straight => TurnDirection::Right,
                     TurnDirection::Right => TurnDirection::Left,
                 };
-            },
+            }
             _ => {}
         }
     }
 }
 
 fn main() {
-    let input = std::fs::read_to_string("inputs/day13/input")
-        .expect("Could not read input file");
+    let input = std::fs::read_to_string("inputs/day13/input").expect("Could not read input file");
 
-    let world:Vec<Vec<Option<Track>>> = input
+    let world: Vec<Vec<Option<Track>>> = input
         .lines()
-        .map(|line|
-            line
-                .chars()
+        .map(|line| {
+            line.chars()
                 .map(|c| match c {
                     '/' => Some(Track::CurveRight),
                     '|' => Some(Track::Vertical),
@@ -119,32 +113,31 @@ fn main() {
                     '>' => Some(Track::Horizontal),
                     'v' => Some(Track::Vertical),
                     '<' => Some(Track::Horizontal),
-                    _ => None
+                    _ => None,
                 })
-                .collect())
+                .collect()
+        })
         .collect();
 
-    let mut carts:Vec<Cart> = input
+    let mut carts: Vec<Cart> = input
         .lines()
         .enumerate()
-        .map(|(y, line)|
-            line
-                .chars()
-                .enumerate()
-                .filter_map(move |(x,c)| match c {
-                    '>' => Some(Cart::new(Orientation::Right, (x,y))),
-                    '<' => Some(Cart::new(Orientation::Left,(x,y))),
-                    '^' => Some(Cart::new(Orientation::Up,(x,y))),
-                    'v' => Some(Cart::new(Orientation::Down,(x,y))),
-                    _ => None
-                }))
+        .map(|(y, line)| {
+            line.chars().enumerate().filter_map(move |(x, c)| match c {
+                '>' => Some(Cart::new(Orientation::Right, (x, y))),
+                '<' => Some(Cart::new(Orientation::Left, (x, y))),
+                '^' => Some(Cart::new(Orientation::Up, (x, y))),
+                'v' => Some(Cart::new(Orientation::Down, (x, y))),
+                _ => None,
+            })
+        })
         .flatten()
         .collect();
 
     let mut iteration = 1;
     loop {
         // Sort the carts
-        carts.sort_by(|a,b| {
+        carts.sort_by(|a, b| {
             let (ax, ay) = a.position;
             let (bx, by) = b.position;
             if ay < by {
@@ -157,20 +150,23 @@ fn main() {
         });
 
         // Update all carts
-        let mut colliding_carts:Option<(usize, usize)> = None;
+        let mut colliding_carts: Option<(usize, usize)> = None;
         for i in 0..carts.len() {
             carts[i].update_position();
 
             for j in 0..carts.len() {
                 if i != j {
                     if carts[i].position == carts[j].position {
-                        println!("Found collision at {},{} iteration: {}", carts[i].position.0, carts[i].position.1, iteration);
-                        colliding_carts = Some((i,j));
+                        println!(
+                            "Found collision at {},{} iteration: {}",
+                            carts[i].position.0, carts[i].position.1, iteration
+                        );
+                        colliding_carts = Some((i, j));
                     }
                 }
             }
 
-            let (x,y) = carts[i].position;
+            let (x, y) = carts[i].position;
             carts[i].update_orientation(world[y][x].as_ref().unwrap());
         }
 
@@ -179,12 +175,12 @@ fn main() {
             let min_index = cart_a.min(cart_b);
             let max_index = cart_a.max(cart_b);
             carts.remove(min_index);
-            carts.remove(max_index-1);
+            carts.remove(max_index - 1);
         }
 
         if carts.len() == 1 {
-            let (x,y) = carts[0].position;
-            println!("Last cart is at: {},{}", x,y);
+            let (x, y) = carts[0].position;
+            println!("Last cart is at: {},{}", x, y);
             return;
         }
 
