@@ -19,3 +19,4 @@ Advent of Code 2018 solutions written in Rust.
 |[Day 13: Mine Cart Madness](https://adventofcode.com/2018/day/13)          |[✓](src/bin/day13.rs)     |
 |[Day 14: Chocolate Charts](https://adventofcode.com/2018/day/14)           |[✓](src/bin/day14.rs)     |
 |[Day 15: Beverage Bandits](https://adventofcode.com/2018/day/15)           |[✓](src/bin/day15.rs)     |
+|[Day 16: Chronal Classification](https://adventofcode.com/2018/day/16)     |[✓](src/bin/day16.rs)     |
