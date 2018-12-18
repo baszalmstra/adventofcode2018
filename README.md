@@ -20,3 +20,5 @@ Advent of Code 2018 solutions written in Rust.
 |[Day 14: Chocolate Charts](https://adventofcode.com/2018/day/14)           |[✓](src/bin/day14.rs)     |
 |[Day 15: Beverage Bandits](https://adventofcode.com/2018/day/15)           |[✓](src/bin/day15.rs)     |
 |[Day 16: Chronal Classification](https://adventofcode.com/2018/day/16)     |[✓](src/bin/day16.rs)     |
+|[Day 17: Reservoir Research](https://adventofcode.com/2018/day/17)         |[✓](src/bin/day17.rs)     |
+|[Day 18: Settlers of The North Pole](https://adventofcode.com/2018/day/18) |[✓](src/bin/day18.rs)     |
